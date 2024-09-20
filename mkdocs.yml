@@ -1,1 +1,19 @@
-site_name: My Docs
+site_name: Neurobagel Developer Documentation
+site_description: Internal docs on topics relevant for developing and maintaining Neurobagel
+theme:
+  name: material
+  features:
+    - navigation.footer
+    - navigation.tabs
+  palette:
+    primary: cyan
+    accent: deep purple
+  logo: "assets/images/logo/neurobagel_logo.png"
+  favicon: "assets/images/logo/neurobagel_favicon.png"
+repo_url: https://github.com/neurobagel/dev-docs
+
+nav:
+  - Home: index.md
+
+markdown_extensions:
+  - admonition

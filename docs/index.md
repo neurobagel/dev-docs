@@ -1,17 +1,12 @@
-# Welcome to MkDocs
+# Welcome to the Neurobagel developer docs
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+This is where we keep documentation to help the development team
+keep building and maintaining Neurobagel.
 
-## Commands
+If you would like to learn more about Neurobagel and how to use
+it, please visit the [Neurobagel website](https://neurobagel.org).
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
 
-## Project layout
-
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+!!! note
+    We're currently moving our docs from [HackMD](https://hackmd.io/team/neurobagel)
+    to this site. Please check back soon.
