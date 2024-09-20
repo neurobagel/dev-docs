@@ -8,5 +8,5 @@ it, please visit the [Neurobagel website](https://neurobagel.org).
 
 
 !!! note
-    We're currently moving our docs from [HackMD](https://hackmd.io/team/neurobagel)
+    We're currently moving our docs from HackMD
     to this site. Please check back soon.
