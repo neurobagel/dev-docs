@@ -251,7 +251,7 @@ but note that the biggest one is 18GB!
 NOTE 1: Based on the docs, I think you shouldn't _have_ to specify the workflow path in addition to the job ID, but for some reason when I tried it without the `-W` flag, I got a `Could not find any stages to run` error. I think this is an open issue, https://github.com/nektos/act/issues/1993.
 
 NOTE 2: If passing a secrets file to the `act` command which contains `GITHUB_TOKEN`, **the variable cannot be defined inside the file as follows**:
-`GITHUB_TOKEN="$(gh auth token)"` (unlike when passing the `GITHUB_TOKEN` directly using `-s GITHUB_TOKEN`), because the .secrets file does not support this kind of expansion syntax. See https://github.com/nektos/act/issues/2130#issuecomment-1859288328 and https://nektosact.com/beginner/index.html#envsecrets-files-structure for more info. 
+`GITHUB_TOKEN="$(gh auth token)"` (unlike when passing the `GITHUB_TOKEN` directly using `-s GITHUB_TOKEN`), because the .secrets file does not support this kind of expansion syntax. See https://github.com/nektos/act/issues/2130#issuecomment-1859288328 and https://nektosact.com/usage/index.html?highlight=env#envsecrets-files-structure for more info. 
 As a work around, you can echo the value into the file instead, e.g.: `echo GITHUB_TOKEN=$(gh auth token) >> my.secrets`
 
 NOTE 2: You can also try a dry-run first, e.g.

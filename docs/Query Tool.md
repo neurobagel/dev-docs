@@ -18,8 +18,8 @@ Example of the dataset.tsv:
 
 | DatasetID                       | DatasetName      | PortalURI                             | NumMatchingSubjects | AvailableImageModalities
 | :---------------                | :------------- | :------------------------------------ | :------------------ | ---------------
-| http://neurobagel.org/vocab/001 | First Dataset  | https://openneuro.org/datasets/ds0001 | 142                 | [T1, T2, DWI]
-| http://neurobagel.org/vocab/002 | Great Dataset  | https://openneuro.org/datasets/ds0002 | 2                   | [T1, Flow]
+| `http://neurobagel.org/vocab/001` | First Dataset  | https://openneuro.org/datasets/ds0001 | 142                 | [T1, T2, DWI]
+| `http://neurobagel.org/vocab/002` | Great Dataset  | https://openneuro.org/datasets/ds0002 | 2                   | [T1, Flow]
 
 - `DatasetID`: required - dataset uuid
 - `DatasetName`: required - human readable name of the dataset
@@ -32,11 +32,11 @@ Example of a subject .tsv:
 
 | DatasetID                       | SubjectID | Age | Sex    | Diagnosis | Assessment | SessionID | SessionPath | NumSessions | Modality      |
 | :------------------------------ | :-------- | :-- | :----- | :-------- | :-------- | :-------- | :-------- | :------------------------------- | :------------ |
-| http://neurobagel.org/vocab/001 | sub-01    | 60  | Male   | PD        | MMSE      | ses-01    | /data/BIDS/ds0001/sub-01/ses-01/ | 2 | [T1, T2, DWI] |
-| http://neurobagel.org/vocab/001 | sub-01    | 60  | Male   | PD        | MMSE      | ses-02    | /data/BIDS/ds0001/sub-01/ses-02/ | 2 | [T1, EEG]     |
-| http://neurobagel.org/vocab/001 | sub-02    | 40  | Female | CTL       | MMSE      | ses-01    | /data/BIDS/ds0001/sub-02/ses-01/ | 2 | [T1]          |
-| http://neurobagel.org/vocab/002 | sub-02    | 40  | Female | CTL       | UPRSIII   | ses-02    | /data/BIDS/ds0002/sub-02/ses-02/ | 2 | [EEG, T2]     |
-| http://neurobagel.org/vocab/002 | sub-01    | 20  | Male   | CTL       | UPRSIII   | ses-01    | /data/BIDS/ds0002/sub-01/ses-01/ | 2 | [T1]          |
+| `http://neurobagel.org/vocab/001` | sub-01    | 60  | Male   | PD        | MMSE      | ses-01    | /data/BIDS/ds0001/sub-01/ses-01/ | 2 | [T1, T2, DWI] |
+| `http://neurobagel.org/vocab/001` | sub-01    | 60  | Male   | PD        | MMSE      | ses-02    | /data/BIDS/ds0001/sub-01/ses-02/ | 2 | [T1, EEG]     |
+| `http://neurobagel.org/vocab/001` | sub-02    | 40  | Female | CTL       | MMSE      | ses-01    | /data/BIDS/ds0001/sub-02/ses-01/ | 2 | [T1]          |
+| `http://neurobagel.org/vocab/002` | sub-02    | 40  | Female | CTL       | UPRSIII   | ses-02    | /data/BIDS/ds0002/sub-02/ses-02/ | 2 | [EEG, T2]     |
+| `http://neurobagel.org/vocab/002` | sub-01    | 20  | Male   | CTL       | UPRSIII   | ses-01    | /data/BIDS/ds0002/sub-01/ses-01/ | 2 | [T1]          |
 
 - `DatasetID`: required - dataset uuid, not persistent across different graphs. It is identical across output files and can be used as the key to join the two output files.
 - `SubjectID`: required - human readable name / label for the subject
