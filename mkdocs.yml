@@ -17,7 +17,6 @@ nav:
   - "How we work":
       - "Process": "How we work.md"
       - "Release": "Neurobagel Release process.md"
-      -
   - Tools:
       - "Query tool": "Query Tool.md"
   - Deployment:
