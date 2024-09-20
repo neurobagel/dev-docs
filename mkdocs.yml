@@ -13,7 +13,15 @@ theme:
 repo_url: https://github.com/neurobagel/dev-docs
 
 nav:
-  - Home: index.md
+  - Home: "index.md"
+  - "How we work":
+      - "Process": "How we work.md"
+      - "Release": "Neurobagel Release process.md"
+      -
+  - Tools:
+      - "Query tool": "Query Tool.md"
+  - Deployment:
+      - "PATs": "Neurobagel PATs.md"
 
 markdown_extensions:
   - admonition
