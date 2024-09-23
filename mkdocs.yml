@@ -15,12 +15,36 @@ repo_url: https://github.com/neurobagel/dev-docs
 nav:
   - Home: "index.md"
   - "How we work":
-      - "Process": "How we work.md"
-      - "Release": "Neurobagel Release process.md"
+      - "Process": "sections/How we work.md"
+      - "Release": "sections/Neurobagel Release process.md"
+      - "Code of Conduct": "sections/Neurobagel Code of Conduct.md"
   - Tools:
-      - "Query tool": "Query Tool.md"
+      - "Query tool": "sections/Query Tool.md"
   - Deployment:
-      - "PATs": "Neurobagel PATs.md"
+      - "PATs": "sections/Neurobagel PATs.md"
+      - "Compatibility": "sections/Version compatibility.md"
+      - "Dockerized NGINX": "sections/Dockerized NGINX deployment.md"
+      - "Add public key for users": "sections/Setting up SSH keys.md"
+      - "Docker": "sections/Docker.md"
+      - "Old Stardog setup": "sections/Legacy Stardog graph backend deployment instructions.md"
+      - "API": "sections/API.md"
+      - "APache Jena deploy": "sections/Apache Jena Fuseki Deployment.md"
+  - "Concepts":
+      - "Security": "sections/Keycloak.md"
+      - "OAuth": "sections/OAuth _ OIDC dump.md"
+      - "Cypress Vue testing": "sections/Cypress Vue Testing.md"
+      - "Cypress snippets": "sections/Cypress Snippets.md"
+      - "Cypress Tasks": "sections/Cypress Tasks.md"
+  - "MISC":
+      - "HC query issues": "sections/Troubleshooting erroneous HC_Diagnosis query results.md"
+      - "vGPU issues": "sections/Fabrique (vGPU prep and other issues).md"
+      - "Git tricks": "sections/Git Tricks.md"
+      - "MNI node issues": "sections/BIC node federation.md"
+      - "Vite tricks": "sections/Vite tricks.md"
+      - "Vue JS devtools": "sections/Tools.md"
+      - "Nuxt tricks": "sections/Nuxt Tricks.md"
+      - "Neurobagel data model limitations": "sections/Limitations of Neurobagel data model.md"
+
 
 markdown_extensions:
   - admonition
