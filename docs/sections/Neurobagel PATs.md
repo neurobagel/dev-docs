@@ -41,6 +41,12 @@ Secret names and permissions:
   - Org permissions: Read and Write access to organization actions variables and organization projects
   - Repo permissions: Read access to metadata
   - Repo permissions: Read and Write access to actions, issues, and pull requests
+- **GH_PAT** in the https://github.com/neurobagel/upptime/ repo
+  - Creator: @surchs
+  - Purpose: We use this PAT to run the upptime workflow
+  - Org permissions: -
+  - Repo permissions: Read access to metadata
+  - Repo permissions: Read and Write access to actions, code, issues, and workflows
 
 ### OpenNeuroDatasets-JSONLD organization
 #### .github repo
