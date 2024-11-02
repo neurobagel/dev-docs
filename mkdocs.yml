@@ -44,6 +44,7 @@ nav:
       - "Vue JS devtools": "sections/Tools.md"
       - "Nuxt tricks": "sections/Nuxt Tricks.md"
       - "Neurobagel data model limitations": "sections/Limitations of Neurobagel data model.md"
+      - "CSS" : "CSS.md"
 
 
 markdown_extensions:
