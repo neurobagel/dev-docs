@@ -101,7 +101,9 @@ See also:
   - The app has been given access to all repositories in the org
 - **App permissions (repository level)**:
   - Read access to metadata
-  - Read and write access to actions, administration, checks, code, commit statuses, deployments, issues, pull requests, repository hooks, and workflows
+  - Read and write access to actions, administration, checks, code, commit statuses, deployments, issues, projects, pull requests, repository hooks, variables, webhooks, and workflows
+- **App permissions (organization level)**:
+  - Read and write access to projects, and variables
 - the app ID and private key for the app can be [used in a workflow](https://docs.github.com/en/enterprise-server@3.11/apps/creating-github-apps/authenticating-with-a-github-app/making-authenticated-api-requests-with-a-github-app-in-a-github-actions-workflow) to generate an installation access token, which allows authentication on behalf of the app (as an app installation which has been granted access to certain repository resources with certain permissions)
   - note: the app's private key is different than the app's **client secret**, which is used to generate user tokens (more info: https://docs.github.com/en/enterprise-cloud@latest/apps/creating-github-apps/about-creating-github-apps/best-practices-for-creating-a-github-app#secure-your-apps-credentials)
 
