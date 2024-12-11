@@ -45,7 +45,7 @@ nav:
       - "Nuxt tricks": "sections/Nuxt Tricks.md"
       - "Neurobagel data model limitations": "sections/Limitations of Neurobagel data model.md"
       - "CSS" : "CSS.md"
-      - "Query Tool Result File Generation" : ""
+      - "Query Tool Result File Generation" : "sections/Query Tool Result File Generation.md"
 
 
 markdown_extensions:
