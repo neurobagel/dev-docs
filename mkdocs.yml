@@ -46,6 +46,7 @@ nav:
       - "Neurobagel data model limitations": "sections/Limitations of Neurobagel data model.md"
       - "CSS" : "CSS.md"
       - "Query Tool Result File Generation" : "sections/Query Tool Result File Generation.md"
+      - "React": "sections/React.md"
 
 
 markdown_extensions:
