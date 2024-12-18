@@ -259,3 +259,6 @@ NOTE 2: You can also try a dry-run first, e.g.
 act -j auto-release -W .github/workflows/release.yaml --secret-file ../my.secrets -n
 ```
 but I'm not sure how far the dry-run actually goes/how helpful this is. For example, I first tried a dry-run locally but forgot to provide the secrets file needed for `auto-release`, and still got a "Job succeeded" message. Then when I ran it not as a dry run, the job failed. 🤷 So the dry-run doesn't seem to actually 'catch' all problems by default.
+
+## Daisy chaining pull requests
+When addressing multiple issues of the same repository in succession, it's better to not branch off of the feature branch with the latest changes as it may lead to conflicts that if not handled properly may overwrite some of the changes made. For a safer approach, branch off of main for each issue.
