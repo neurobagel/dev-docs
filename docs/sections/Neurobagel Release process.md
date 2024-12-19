@@ -218,3 +218,9 @@ _(Aim to group changes of the same type/prefix)_
 ### Bug fixes 🛠️
 
 ### Other changes 🧹
+
+
+## Other important notes
+
+### Commiting after release was triggered
+If a commit is added to the `main` branch (or whichever branch is configured to release off of) after the release workflow was triggered and before it finishes, auto will create the tag for the release but it will error out and won't finalize the release to avoid collisions. See [this query tool issue](https://github.com/orgs/neurobagel/projects/1/views/34?pane=issue&itemId=91440269&issue=neurobagel%7Cquery-tool%7C410) for more details.
