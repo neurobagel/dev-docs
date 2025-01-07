@@ -117,37 +117,42 @@ That is, the value of each secret ends up as the _contents_ of a separate file u
 
 
 You can define a secret one of two ways:
+
 - By setting it as the value of environment variable that is accessible to the **Compose file itself**
     - So, any way that you can provide/expose environment variables to the Compose file, you should be able to include the environment variable for the secret (see [Setting environment variables](#Setting-environment-variables) section)
       - including via a `.env` file
-    
-      Example:
-      ```bash
-      # .env file
-      MY_SECRET=bageley
-      ...
-      ```
-      
-      ```yaml
-      # docker-compose.yml
-      ...
-      secrets:
-        my_secret:
-          environment: "MY_SECRET"
-      ```
-      Inside a container that has access to `my_secret`, `cat /run/secrets/my_secret` will return `bageley`.
-      
-      If `MY_SECRET` is not found in the environment (or unset ? - need to check), docker compose will give an error.
-      
-      **NOTE:** In order to ensure the `MY_SECRET` value does not end up exposed in e.g., the docker compose config, if a container needs to use *other* variables defined in the `.env` file, each needed variable should be explicitly specified under the `environment` attribute in docker-compose.yml, rather than using the `env_file` attribute (because it will auto-include *all* the variables in `.env` as environment variables, including the secret).
-    
+
+          Example:
+
+          ```bash
+          # .env file
+          MY_SECRET=bageley
+          ...
+          ```
+
+          ```yaml
+          # docker-compose.yml
+          ...
+          secrets:
+            my_secret:
+              environment: "MY_SECRET"
+          ```
+
+          Inside a container that has access to `my_secret`, `cat /run/secrets/my_secret` will return `bageley`.
+
+          If `MY_SECRET` is not found in the environment (or unset ? - need to check), docker compose will give an error.
+
+          **NOTE:** In order to ensure the `MY_SECRET` value does not end up exposed in e.g., the docker compose config, if a container needs to use _other_ variables defined in the `.env` file, each needed variable should be explicitly specified under the `environment` attribute in docker-compose.yml, rather than using the `env_file` attribute (because it will auto-include *all* the variables in `.env` as environment variables, including the secret).
+
 - By making the value of the secret the contents of a file, which you then provide to the `secrets` attribute
   - Example: see https://docs.docker.com/compose/use-secrets/#advanced
 
 Note that for both these methods:
+
 - The secret is **not** automatically set as an environment variable inside the container
 
 References:
+
 - https://docs.docker.com/compose/use-secrets/
 - https://docs.docker.com/compose/compose-file/09-secrets/
 
@@ -161,24 +166,31 @@ Mostly encountered when trying to deploy our tools on the internal BIC node (whe
 Sometimes, probably depending on the permissions of a user on the machine they are using to deploy Neurobagel, Docker can be run as the `nobody` user (even though inside the container the user is `root`, by default). This means when the container tries to write to a mounted directory on the host, it might not have permissions to do so (unless the directory has `rwx` permissions for ALL users, which usually isn't the desired setup).
 
 > You can verify what user is being used to write to the host FS by running an interactive bash shell inside the container that uses the volume mount, and trying to write to a mounted test directory with fully open access permissions, e.g.:
+>
 > ```bash
 > docker run -it -v /data/origami/mount_test:/opt/graphdb/home --entrypoint /bin/bash ontotext/graphdb:10.3.1 -c "touch /opt/graphdb/home/hellofromcontainer.txt"
 > ```
+>
 > Then, you can `cd` into the mounted directory on the host and view the file owner/group.
 
 One workaround is to explicitly run the container as a non-root user, using the [`--user` flag in `docker run`](https://docs.docker.com/engine/reference/run/#user), or the [`user` instruction in docker-compose.yml](https://docs.docker.com/compose/compose-file/05-services/#user):
 
 e.g.,
+
 1. Add following to the relevant service in `docker-compose.yml`:
-```bash
-user: ${CURRENT_UID}
-````
-2. Start the Compose stack with 
-```bash
-CURRENT_UID=$(id -u):$(id -g) docker compose up -d
-```
+
+    ```bash
+    user: ${CURRENT_UID}
+    ```
+
+2. Start the Compose stack with
+
+    ```bash
+    CURRENT_UID=$(id -u):$(id -g) docker compose up -d
+    ```
 
 Useful commands for troubleshooting:
+
 ```bash
 id $USER  # shows uid and all gid and names for current user
 id -gn  # gets name of primary group
