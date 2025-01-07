@@ -189,6 +189,7 @@ id -u  # same as $UID
 ```
 
 References:
+
 - https://medium.com/redbubble/running-a-docker-container-as-a-non-root-user-7d2e00f8ee15
 - https://docs.docker.com/compose/compose-file/05-services/#user
 - https://docs.docker.com/engine/reference/run/#user
