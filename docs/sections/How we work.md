@@ -83,6 +83,8 @@ directory and whenever one of the template workflows is edited,
 `sync_wf` opens a pull request against our other neurobagel repositories
 to copy or update the workflow there.
 
+The [sync](https://github.com/neurobagel/workflows/blob/main/.github/sync.yml) is a config file (containing repo names) which is read read by the `sync_wf`. To sync required workflows for a repository, the name of the repository needs to be added to the `repos` field of the relevant file in the sync config file.
+
 [Templates](https://github.com/BetaHuhn/repo-file-sync-action?tab=readme-ov-file#using-templates) can be used to propagate different values of variables to each synchronized workflow.
 These variables can include strings with typical GitHub variable expansion syntax if each repo's workflow needs to use a secret as part of the workflow, with the following behaviour for expansion in the generated/synchronized workflows:
 
