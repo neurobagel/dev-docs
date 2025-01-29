@@ -115,6 +115,13 @@ See also:
 - `NB_BOT_ID`: variable, app id (not client id!) for app
 - `NB_BOT_KEY`: secret, private key for app
 
+!!! warning "Modifying `NB_BOT_KEY` secret"
+
+    When changing the value of `NB_BOT_KEY` secret, be sure to copy all the contents of your private key including any white space. 
+    As a best practice, make sure to include the `-----BEGIN RSA PRIVATE KEY-----` and `-----END RSA PRIVATE KEY-----`
+    when copying the value.
+
+
 ### Permissions
 Neurobagel Bot (`neurobagel-bot`) was created and is installed under the @neurobagel organization
 
