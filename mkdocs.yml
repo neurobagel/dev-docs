@@ -47,6 +47,7 @@ nav:
       - "CSS" : "CSS.md"
       - "Query Tool Result File Generation" : "sections/Query Tool Result File Generation.md"
       - "React": "sections/React.md"
+      - "Zustand": "sections/Zustand.md"
 
 
 markdown_extensions:
