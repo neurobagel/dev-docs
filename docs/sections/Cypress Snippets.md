@@ -356,3 +356,22 @@ cy.intercept('GET', 'query/*', (req) => {
   }
 });
 ```
+
+## Miscellaneous
+
+### Stubbing a function from an external dependency
+
+Context: In the code we're using compile method Ajv library to validate a data dictionary against a schema.
+In order to mock an invalid result from the validation we:
+
+- create a stub function to replace the validation function returned by `Ajv.prototype.compile`
+- add mock validation errors to the `errors` property of the stub function
+- stub the `Ajv.prototype` to replace `compile` with our stub function created earlier
+
+```TypeScript
+const validateStub = cy.stub().returns(false) as ValidateFunction;
+
+validateStub.errors = [{ instancePath: '/column1' }, { instancePath: '/column2' }];
+
+cy.stub(Ajv.prototype, 'compile').callsFake(() => validateStub);
+```
