@@ -50,9 +50,6 @@ nav:
   - Data model & Troubleshooting:
     - "Limitations of Neurobagel data model": "data/Limitations of Neurobagel data model.md"
     - "Troubleshooting HC_Diagnosis query results": "data/Troubleshooting erroneous HC_Diagnosis query results.md"
-  - Miscellaneous:
-    - "Query Tool Result File Generation": "frontend/Query Tool Result File Generation.md"
-    - "Vue JS devtools / Misc tips": "dev/Tools.md"
 
 
 markdown_extensions:
