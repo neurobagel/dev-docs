@@ -4,7 +4,6 @@ theme:
   name: material
   features:
     - navigation.footer
-    - navigation.tabs
   palette:
     primary: cyan
     accent: deep purple
