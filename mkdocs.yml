@@ -4,7 +4,6 @@ theme:
   name: material
   features:
     - navigation.footer
-    - navigation.tabs
   palette:
     primary: cyan
     accent: deep purple
@@ -14,40 +13,42 @@ repo_url: https://github.com/neurobagel/dev-docs
 
 nav:
   - Home: "index.md"
-  - "How we work":
-      - "Process": "sections/How we work.md"
-      - "Release": "sections/Neurobagel Release process.md"
-      - "Code of Conduct": "sections/Neurobagel Code of Conduct.md"
-  - Tools:
-      - "Query tool": "sections/Query Tool.md"
-  - Deployment:
-      - "PATs": "sections/Neurobagel PATs.md"
-      - "Compatibility": "sections/Version compatibility.md"
-      - "Dockerized NGINX": "sections/Dockerized NGINX deployment.md"
-      - "Add public key for users": "sections/Setting up SSH keys.md"
-      - "Docker": "sections/Docker.md"
-      - "Old Stardog setup": "sections/Legacy Stardog graph backend deployment instructions.md"
-      - "API": "sections/API.md"
-      - "APache Jena deploy": "sections/Apache Jena Fuseki Deployment.md"
-  - "Concepts":
-      - "Security": "sections/Keycloak.md"
-      - "OAuth": "sections/OAuth _ OIDC dump.md"
-      - "Cypress Vue testing": "sections/Cypress Vue Testing.md"
-      - "Cypress snippets": "sections/Cypress Snippets.md"
-      - "Cypress Tasks": "sections/Cypress Tasks.md"
-  - "MISC":
-      - "HC query issues": "sections/Troubleshooting erroneous HC_Diagnosis query results.md"
-      - "vGPU issues": "sections/Fabrique (vGPU prep and other issues).md"
-      - "Git tricks": "sections/Git Tricks.md"
-      - "MNI node issues": "sections/BIC node federation.md"
-      - "Vite tricks": "sections/Vite tricks.md"
-      - "Vue JS devtools": "sections/Tools.md"
-      - "Nuxt tricks": "sections/Nuxt Tricks.md"
-      - "Neurobagel data model limitations": "sections/Limitations of Neurobagel data model.md"
-      - "CSS" : "CSS.md"
-      - "Query Tool Result File Generation" : "sections/Query Tool Result File Generation.md"
-      - "React": "sections/React.md"
-      - "Zustand": "sections/Zustand.md"
+  - Process & Governance:
+    - "How we work": "process/How we work.md"
+    - "Release process": "process/Neurobagel Release process.md"
+    - "Code of Conduct": "process/Neurobagel Code of Conduct.md"
+    - "Personal Access Tokens (PATs)": "process/Neurobagel PATs.md"
+  - Development & Tooling:
+    - "Tools overview": "dev/Tools.md"
+    - "Git tricks": "dev/Git Tricks.md"
+    - "Version compatibility": "dev/Version compatibility.md"
+  - Frontend & UI:
+    - "Query Tool": "frontend/Query Tool.md"
+    - "Query Tool: Result file generation": "frontend/Query Tool Result File Generation.md"
+    - "Nuxt tricks": "frontend/Nuxt Tricks.md"
+    - "Vite tricks": "frontend/Vite tricks.md"
+    - "CSS": "frontend/CSS.md"
+    - "React": "frontend/React.md"
+    - "Zustand": "frontend/Zustand.md"
+  - Testing & CI:
+    - "Cypress Vue testing": "testing/Cypress Vue Testing.md"
+    - "Cypress snippets": "testing/Cypress Snippets.md"
+    - "Cypress tasks": "testing/Cypress Tasks.md"
+  - Deployment & Infrastructure:
+    - "Docker": "deploy/Docker.md"
+    - "Dockerized NGINX deployment": "deploy/Dockerized NGINX deployment.md"
+    - "Apache Jena / Fuseki": "deploy/Apache Jena Fuseki Deployment.md"
+    - "Legacy Stardog setup": "deploy/Legacy Stardog graph backend deployment instructions.md"
+    - "Fabrique (vGPU notes)": "deploy/Fabrique (vGPU prep and other issues).md"
+    - "Add public key for users": "deploy/Setting up SSH keys.md"
+  - Backend & Security:
+    - "API notes": "backend/API.md"
+    - "Keycloak (Auth)": "backend/Keycloak.md"
+    - "OAuth / OIDC notes": "backend/OAuth _ OIDC dump.md"
+    - "BIC node federation": "backend/BIC node federation.md"
+  - Data model & Troubleshooting:
+    - "Limitations of Neurobagel data model": "data/Limitations of Neurobagel data model.md"
+    - "Troubleshooting HC_Diagnosis query results": "data/Troubleshooting erroneous HC_Diagnosis query results.md"
 
 
 markdown_extensions:
