@@ -26,6 +26,22 @@ Sources:
 - [https://redux.js.org/style-guide/#model-actions-as-events-not-setters](https://redux.js.org/style-guide/#model-actions-as-events-not-setters)
 - [https://tkdodo.eu/blog/working-with-zustand#model-actions-as-events-not-setters](https://tkdodo.eu/blog/working-with-zustand#model-actions-as-events-not-setters)
 
+### (somewhat) complex getters are custom hooks
+
+If my component needs access to a computed value that is derived from other values in the store,
+then we put the logic to generate the computed value inside of a custom hook, not inside the store.
+
+Reason:
+
+- This keeps the store simple and focused on state variables and actions
+- Keeps businesslogic separate and easily testable
+
+Example:
+
+```js
+todo
+```
+
 ## Lifting state up
 
 To collect data from multiple children, or to have two or more child components communicate with each other, declare the shared state in their parent component instead. The parent component can pass that state back down to the children via props. This keeps the child components in sync with each other and with their parent.
