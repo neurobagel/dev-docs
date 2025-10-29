@@ -5,6 +5,27 @@ tags: [React, Typescript, Frontend, Store, State Management]
 ---
 
 
+## Zustand design principles
+
+Some basic principles we use to organize our stores. With sources where possible.
+
+### Actions have semantic names
+
+Store actions should reflect a real action that a user takes (e.g. `userSelectedConfig`)
+or an event that has happened (e.g. `describedColumn`). The action should not just be a wrapper
+for `set()` of a specific variable (i.e. not `"setDataTable"`).
+
+Example:
+
+```js
+tbd
+```
+
+Sources:
+
+- [https://redux.js.org/style-guide/#model-actions-as-events-not-setters](https://redux.js.org/style-guide/#model-actions-as-events-not-setters)
+- [https://tkdodo.eu/blog/working-with-zustand#model-actions-as-events-not-setters](https://tkdodo.eu/blog/working-with-zustand#model-actions-as-events-not-setters)
+
 ## Lifting state up
 
 To collect data from multiple children, or to have two or more child components communicate with each other, declare the shared state in their parent component instead. The parent component can pass that state back down to the children via props. This keeps the child components in sync with each other and with their parent.
