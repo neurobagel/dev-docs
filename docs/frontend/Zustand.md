@@ -9,6 +9,27 @@ tags: [React, Typescript, Frontend, Store, State Management]
 
 Some basic principles we use to organize our stores. With sources where possible.
 
+### Normalize store as much as possible, but no more
+
+Store objects should have a single theme or purpose. Or: all information one "thing" should be located
+in one place and not duplicated. When designing or expanding a store, we're following loosely the rules
+for relational database modeling, with some practical exceptions:
+
+- if information about two "entities" is always handled and changed together (e.g. a standardized variable and its URI)
+then they can be modeled in the same object
+- we don't normalize many-to-many relations with associative tables/objects. In such a case, we just represent
+the relation with an array of foreign keys
+
+Reason:
+
+- looking up and changing data is more straightforward
+- store objects are less deeply nested, making mutations simpler
+- the store is (hopefully) easier to read (more in the source)
+
+Source:
+
+- [https://redux.js.org/usage/structuring-reducers/normalizing-state-shape](https://redux.js.org/usage/structuring-reducers/normalizing-state-shape)
+
 ### Actions have semantic names
 
 Store actions should reflect a real action that a user takes (e.g. `userSelectedConfig`)
