@@ -34,7 +34,8 @@ Source:
 
 Store actions should reflect a real action that a user takes (e.g. `userSelectedConfig`)
 or an event that has happened (e.g. `describedColumn`). The action should not just be a wrapper
-for `set()` of a specific variable (i.e. not `"setDataTable"`).
+for `set()` of a specific variable (i.e. not `"setDataTable"`). That also means that a single
+store variable may be "written to" by more than one action.
 
 Example:
 
@@ -52,6 +53,13 @@ Sources:
 If my component needs access to a computed value that is derived from other values in the store,
 then we put the logic to generate the computed value inside of a custom hook, not inside the store.
 
+!!! note "Store actions can't use hooks, if you want to then that's a signal to factor out"
+
+    Hooks (custom and otherwise) are [only usable inside a React function component](https://react.dev/reference/rules/rules-of-hooks#only-call-hooks-from-react-functions).
+    When you find that you want to use a custom hook in an action, that is a signal to consider 
+    factoring (some of) the logic in the hook out into a regular JS utility function. 
+    Then you can use the utility function inside the hook and also inside the action.
+
 Reason:
 
 - This keeps the store simple and focused on state variables and actions
@@ -62,6 +70,64 @@ Example:
 ```js
 todo
 ```
+
+### Actions can be async (e.g. as fetch)
+
+Actions are usually there to handle some app event and respond to it by setting state.
+You can also make the action responsible for fetching external data, processing it, and then setting
+the app state. This is useful e.g. for fetching data from an API and then putting it in the state.
+
+Sources:
+
+- [https://github.com/pmndrs/zustand?tab=readme-ov-file#async-actions](https://github.com/pmndrs/zustand?tab=readme-ov-file#async-actions)
+
+### Expose store variables with hooks only
+
+We're following a suggestion by [tktodo](https://tkdodo.eu/blog/working-with-zustand#only-export-custom-hooks)
+to expose atomic selectors with custom hooks instead of exposing the entire store.
+
+Reason
+
+- You are less likely to accidentally subscribe the entire store when you don't need to, avoiding
+rerenders
+- the custom hooks are more clearly named than destructing the store hook in the component
+
+Example:
+
+```js
+// Export the selector, not the entire store
+export const useBears = () => useBearStore((state) => state.bears)
+```
+
+Sources:
+
+- [https://tkdodo.eu/blog/working-with-zustand#only-export-custom-hooks](https://tkdodo.eu/blog/working-with-zustand#only-export-custom-hooks)
+
+### Controlled components do not access store directly, their parents do
+
+This is a "house rule" for us that we may revisit. If a component has state managed by a parent
+componet (i.e. is primarily a presentational component that gets props), then this component will
+not directly access the store. Instead this responsibility falls to the parent who will prop-forward
+both the store variables as well as store actions (in the form of handlers) to the child.
+
+This pattern will likely have limits. E.g. we don't want to do very long prop-drilling chains.
+But it will help keep responsibility clear and allow us to make more reusable components without
+the close coupling that direct store access would entail.
+
+Reasons
+
+- Easier to write reusable components, because they are not coupled to store access
+- Separation of concerns. As a non-page component, I only need to worry about my props
+
+### Actions should not call other actions
+
+Actions [represent events](#actions-have-semantic-names), and are not just variable setters. That
+also means that actions should not directly call other actions to simply avoid duplicating code.
+Instead, the component should dispatch the appropriate actions, and each action is then only
+concerned with processing its own event.
+
+There may be scenarios when one action will always lead to another action being triggered. For now
+we would expect this situation to be handled in the component and not in the actions.
 
 ## Lifting state up
 
