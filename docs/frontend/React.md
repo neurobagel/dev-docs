@@ -1,3 +1,18 @@
+## What triggers re-renders in React
+
+A re-render happens when a component runs again after its initial render to update its output.
+
+Below are the main scenarios that cause a component to re-render:
+
+1. State updates: changes to component state (created using useState, useReducer, or any other state hook)
+
+2. Parent re-rendering: when a parent component re-renders, it triggers a re-render in its child components by default
+
+3. Context updates: changes in a context provider’s value cause all components that consume that context to re-render
+
+4. Hook updates: updates from custom hooks or built-in hooks (like useReducer or useSyncExternalStore) cause the component using them to re-render
+
+
 ## Error boundary
 
 Used to catch rendering errors and display a fallback UI. See relevant React documentation page [here](https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary) for more information.
