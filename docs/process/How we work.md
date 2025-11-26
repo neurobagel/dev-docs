@@ -15,6 +15,23 @@ The board is organized from left to right:
 - Backlog: An ordered list of issues that we have committed to addressing next. Issues are ranked from top to bottom in order of their importance to our aims as a team / project.
 - Specify: Whenever someone is free, we take the top issue from the Backlog and pull it into "Specify". Here we check that the issue specification is clear and complete. Here we also split up bigger issues into smaller sub-issues to make sure that all issues on the board have a similar size
 
+### Issues
+
+We do most of our discussion and planning on issues.
+To make sure everyone has all the relevant context up top,
+make sure the issue description is always up to date and reflects the most recent discussion.
+
+When an issue is done being specified, it should have a couple of TODO checkboxes so the work
+required and the progress so far can be seen at a glance.
+
+### Pull requests and reviews
+
+Pull Requests and reviews are how we make sure the implementation meets what is in the issue spec
+and is correct and fits our standards.
+Pull Requests can take a lot of time for the reviewer, so when you open a PR, it is important that
+you keep the changes focused on a single problem and that you provide clear context
+to help with the review.
+
 ### FAQ: How should I ...
 
 **While working on an issue, I found a bug. where should it go**?
