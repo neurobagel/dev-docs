@@ -32,6 +32,16 @@ Pull Requests can take a lot of time for the reviewer, so when you open a PR, it
 you keep the changes focused on a single problem and that you provide clear context
 to help with the review.
 
+Here are some examples of good context to provide:
+
+- Anything to pay attention to
+(e.g., edge case, something not implemented, new dependency introduction for custom solution)
+- Related issues
+- If PR includes fixes for multiple issues, structure them somehow in the description for review
+  - Try to avoid comining multiple issues in a single PR
+- Make sure that issue has much context as possible
+e.g., with comments, updating description during implementation
+
 ### FAQ: How should I ...
 
 **While working on an issue, I found a bug. where should it go**?
