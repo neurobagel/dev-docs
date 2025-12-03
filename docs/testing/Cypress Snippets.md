@@ -201,6 +201,37 @@ cy.mount(ComponentName, {
 });
 ```
 
+#### Mock a Zustand store inside a React component test
+Some of our React component tests rely on Zustand stores for their data.
+You can manipulate the store directly from Cypress by calling the store's `setState`
+inside a `cy.then`, which guarantees the state change runs in sequence with the Cypress command queue.
+
+```javascript
+import { useFreshDataStore } from "~/stores/useFreshDataStore";
+
+it("should show unavailable message when selected column data is missing", () => {
+  cy.mount(<ValueAnnotation />);
+  cy.get('[data-cy="side-column-nav-bar-unannotated"]').click();
+  cy.get('[data-cy="side-column-nav-bar-other-select-button"]').click();
+
+  cy.then(() => {
+    useFreshDataStore.setState((state) => {
+      const updatedColumns = { ...state.columns };
+      delete updatedColumns["6"];
+
+      return {
+        ...state,
+        columns: updatedColumns,
+      };
+    });
+  });
+
+  cy.get('[data-cy="column-data-unavailable"]')
+    .should("be.visible")
+    .and("contain", "Selected column data is unavailable.");
+});
+```
+
 ### Respond to information coming out of the component
 
 Components may have to send information to other parts of the app when certain events occur
