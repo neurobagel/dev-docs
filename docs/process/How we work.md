@@ -289,5 +289,16 @@ act -j auto-release -W .github/workflows/release.yaml --secret-file ../my.secret
 ```
 but I'm not sure how far the dry-run actually goes/how helpful this is. For example, I first tried a dry-run locally but forgot to provide the secrets file needed for `auto-release`, and still got a "Job succeeded" message. Then when I ran it not as a dry run, the job failed. 🤷 So the dry-run doesn't seem to actually 'catch' all problems by default.
 
+## Working with long-lived development branches
+
+- Maintenance Strategy: keeping `develop` in-sync with `main`
+If `main` has received changes/PRs and has moved forward after `develop` was branched off and `develop` is still being worked on, `main` must be merged into `develop` immediately after any changes land in `main`, This keeps development branch up-to-date with main. the strategy is often referred to as `The Back-Merge`: checkout to `develop` branch and merge main into `develop` i.e., `git checkout develop && git merge main`
+
+- Feature strategy: merging feature into `develop`
+If a PR is opened against `develop`, it should be squashed and mergeed since the two branches share history and we want to see one clear commit per feature/fix/etc e.g., feat: set up normalized store, rather than 15 commits e.g., chore: fixed typo, etc. 
+
+- Release strategy: merging `develop` into `main`
+If `develop` has accumulated the planned features and is ready for release. The changes should merged using a standard merge commit since the desired goal is to perserve the history of `develop`. The merge commit acts as a "container" for that release. If we need to revert the entire release, we can revert this single merge commit
+
 ## Daisy chaining pull requests
 When addressing multiple issues of the same repository in succession, it's better to not branch off of the feature branch with the latest changes as it may lead to conflicts that if not handled properly may overwrite some of the changes made. For a safer approach, branch off of main for each issue.
