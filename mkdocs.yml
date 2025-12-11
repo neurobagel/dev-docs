@@ -41,6 +41,7 @@ nav:
     - "Legacy Stardog setup": "deploy/Legacy Stardog graph backend deployment instructions.md"
     - "Fabrique (vGPU notes)": "deploy/Fabrique (vGPU prep and other issues).md"
     - "Add public key for users": "deploy/Setting up SSH keys.md"
+    - "Nodes to redeploy": "deploy/Node-upgrade-after-release.md"
   - Backend & Security:
     - "API notes": "backend/API.md"
     - "Keycloak (Auth)": "backend/Keycloak.md"
