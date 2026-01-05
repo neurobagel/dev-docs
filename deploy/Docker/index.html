@@ -1,0 +1,2107 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Internal docs on topics relevant for developing and maintaining Neurobagel">
+      
+      
+      
+      
+        <link rel="prev" href="../../testing/Cypress%20Tasks/">
+      
+      
+        <link rel="next" href="../Dockerized%20NGINX%20deployment/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/logo/neurobagel_favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Docker - Neurobagel Developer Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="cyan" data-md-color-accent="deep-purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#internal-port-vs-host-port" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Neurobagel Developer Documentation" class="md-header__button md-logo" aria-label="Neurobagel Developer Documentation" data-md-component="logo">
+      
+  <img src="../../assets/images/logo/neurobagel_logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Neurobagel Developer Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Docker
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/neurobagel/dev-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Neurobagel Developer Documentation" class="md-nav__button md-logo" aria-label="Neurobagel Developer Documentation" data-md-component="logo">
+      
+  <img src="../../assets/images/logo/neurobagel_logo.png" alt="logo">
+
+    </a>
+    Neurobagel Developer Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/neurobagel/dev-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Process & Governance
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Process & Governance
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../process/How%20we%20work/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How we work
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../process/Neurobagel%20Release%20process/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Release process
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../process/Neurobagel%20Code%20of%20Conduct/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code of Conduct
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../process/Neurobagel%20PATs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Personal Access Tokens (PATs)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development & Tooling
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Development & Tooling
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dev/Tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dev/Git%20Tricks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Git tricks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dev/Version%20compatibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Version compatibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Frontend & UI
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Frontend & UI
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/Query%20Tool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Query Tool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/Query%20Tool%20Result%20File%20Generation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Query Tool: Result file generation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/Nuxt%20Tricks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nuxt tricks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/Vite%20tricks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vite tricks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/CSS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CSS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/React/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    React
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/Zustand/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Zustand
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing & CI
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Testing & CI
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/Cypress%20Vue%20Testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cypress Vue testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/Cypress%20Snippets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cypress snippets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/Cypress%20Tasks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cypress tasks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment & Infrastructure
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Deployment & Infrastructure
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docker
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#internal-port-vs-host-port" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Internal port vs host port
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Internal port vs host port">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#note" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Note
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setting environment variables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Setting environment variables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker-compose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker compose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-cli-docker-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker CLI (docker run)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-secrets-in-docker-compose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using secrets in Docker Compose
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting-dockerdocker-compose-recipes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting Docker/Docker Compose recipes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting Docker/Docker Compose recipes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#running-docker-container-as-non-root-user" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running Docker container as non-root user
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#specifying-specific-subnet-for-docker-networks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Specifying specific subnet for Docker networks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Dockerized%20NGINX%20deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dockerized NGINX deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Apache%20Jena%20Fuseki%20Deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Jena / Fuseki
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Legacy%20Stardog%20graph%20backend%20deployment%20instructions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Legacy Stardog setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Fabrique%20%28vGPU%20prep%20and%20other%20issues%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fabrique (vGPU notes)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Setting%20up%20SSH%20keys/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Add public key for users
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Node-upgrade-after-release/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nodes to redeploy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backend & Security
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Backend & Security
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backend/API/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backend/Keycloak/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Keycloak (Auth)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backend/OAuth%20_%20OIDC%20dump/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OAuth / OIDC notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backend/BIC%20node%20federation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BIC node federation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data model & Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data model & Troubleshooting
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data/Limitations%20of%20Neurobagel%20data%20model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Limitations of Neurobagel data model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data/Troubleshooting%20erroneous%20HC_Diagnosis%20query%20results/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting HC_Diagnosis query results
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#internal-port-vs-host-port" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Internal port vs host port
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Internal port vs host port">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#note" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Note
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setting environment variables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Setting environment variables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker-compose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker compose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-cli-docker-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker CLI (docker run)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-secrets-in-docker-compose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using secrets in Docker Compose
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting-dockerdocker-compose-recipes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting Docker/Docker Compose recipes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting Docker/Docker Compose recipes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#running-docker-container-as-non-root-user" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running Docker container as non-root user
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#specifying-specific-subnet-for-docker-networks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Specifying specific subnet for Docker networks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>Docker</h1>
+
+<h2 id="internal-port-vs-host-port">Internal port vs host port</h2>
+<p>In the context of docker compose and within a docker network services talk to each other on their internal port number, and not the port that is exposed to the host.
+For example, given a stack with the following config
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>name: api
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>services:
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>  api:
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    environment:
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>      NB_API_ALLOWED_ORIGINS: &#39;*&#39;
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>      NB_API_PORT: &quot;8000&quot;
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>      NB_GRAPH_ADDRESS: graph
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>      NB_GRAPH_DB: test_data/query
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>      NB_GRAPH_PASSWORD: admin
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>      NB_GRAPH_PORT: &quot;5820&quot;
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>      NB_GRAPH_USERNAME: admin
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>      NB_RETURN_AGG: &quot;false&quot;
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    image: neurobagel/api:test
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    networks:
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>      default: null
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>    ports:
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>    - mode: ingress
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>      target: 8000
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>      published: &quot;8888&quot;
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>      protocol: tcp
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>  graph:
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>    image: stardog/stardog:8.2.2-java11-preview
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>    networks:
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>      default: null
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>    ports:
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>    - mode: ingress
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>      target: 5820
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>      published: &quot;5821&quot;
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>      protocol: tcp
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>    volumes:
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>    - type: bind
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>      source: /home/ubuntu/stardog_root_test
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>      target: /var/opt/stardog
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>      bind:
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>        create_host_path: true
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>  query:
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>    environment:
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a>      API_QUERY_URL: http://localhost:8000/
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a>    image: neurobagel/query_tool:latest
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a>    networks:
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a>      default: null
+</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a>    ports:
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a>    - mode: ingress
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a>      target: 3000
+</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a>      published: &quot;3000&quot;
+</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46" href="#__codelineno-0-46"></a>      protocol: tcp
+</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47" href="#__codelineno-0-47"></a>networks:
+</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48" href="#__codelineno-0-48"></a>  default:
+</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49" href="#__codelineno-0-49"></a>    name: api_default
+</span></code></pre></div>
+The api will be sending its requests to the port <code>5820</code> and not <code>5821</code>.</p>
+<h3 id="note">Note</h3>
+<p>This may introduce issues for the API -&gt; graph connection when the running API is not in the same Docker network as the graph, e.g. if you have locally spun up an API using Python but want to communicate with a Dockerized graph endpoint. 
+In this scenario, you would likely need to manually specify the <em>host</em> port for the graph container in the query URL, rather than using the <em>container</em> port.</p>
+<h2 id="setting-environment-variables">Setting environment variables</h2>
+<h3 id="docker-compose">docker compose</h3>
+<ul>
+<li><code>environment</code> instruction for a specific service (<code>in docker-compose.yml</code>)</li>
+<li>Defines variables to be set inside the container (compose config file itself cannot see the variables)</li>
+<li><code>env_file</code> instruction for a specific service (<code>in docker-compose.yml</code>) </li>
+<li>Only sets variables inside the container (compose config file itself cannot see the variables)</li>
+<li>Can replace / works without <code>environment</code> instruction to set variables in the container</li>
+<li>Values inside specified env file can be quoted or unquoted, with same result in <code>docker compose config</code></li>
+<li><code>--env-file</code> CLI argument (e.g., <code>docker compose --env-file custom.env ...</code>)</li>
+<li>Only seen by the compose config itself, <strong>UNLESS</strong> the <code>environment</code> instruction is also used (in which case, variables that are defined under <code>environment</code> which also have a value inside the specified env file are passed to and can be used inside the container)</li>
+<li>Essentially just for specifying a custom path for the <code>.env</code> file, and works the same as having a file named <code>.env</code> (in which case the <code>--env-file</code> argument is not needed)</li>
+<li>Does not care about quotes around variable values in the file</li>
+</ul>
+<p>Some important references:
+- <a href="https://docs.docker.com/compose/environment-variables/set-environment-variables/">https://docs.docker.com/compose/environment-variables/set-environment-variables/</a>
+- <a href="https://docs.docker.com/compose/compose-file/05-services/">https://docs.docker.com/compose/compose-file/05-services/</a> (see sections on <code>env_file</code> and <code>environment</code>)
+- <a href="https://docs.docker.com/compose/environment-variables/env-file/">https://docs.docker.com/compose/environment-variables/env-file/</a>
+- <a href="https://docs.docker.com/compose/environment-variables/envvars-precedence/">https://docs.docker.com/compose/environment-variables/envvars-precedence/</a></p>
+<h3 id="docker-cli-docker-run">docker CLI (docker run)</h3>
+<p>All three options below can set variables <strong>inside</strong> the container.</p>
+<ul>
+<li><code>ENV</code> instruction in dockerfile</li>
+<li>Should work the same as <code>--env</code> / <code>-e</code> command-line argument (e.g., <code>docker run -e MYVAR=MYVALUE</code>)</li>
+<li>Quotes are needed for variable values with spaces</li>
+<li>Not required for an environment variable to be available to code in the container, such as if one of the below two options are used</li>
+<li><code>--env-file</code> CLI argument</li>
+<li>Interprets value exactly as is inside specified file (including any quotes), does not do any parameter expansion for values inside the file (i.e., for <code>VAR=VALUE</code>, the VALUE is passed in exactly as is, as a literal)<ul>
+<li>See:</li>
+<li><a href="https://github.com/docker/for-linux/issues/1208">https://github.com/docker/for-linux/issues/1208</a></li>
+<li><a href="https://github.com/docker/cli/issues/4347#issuecomment-1590210864">https://github.com/docker/cli/issues/4347#issuecomment-1590210864</a></li>
+</ul>
+</li>
+<li><strong>IMPORTANT</strong>: THIS IS (FOR SOME REASON) <strong>NOT</strong> THE SAME FUNCTIONALLY AS THE <code>--env-file</code> CLI ARGUMENT FOR DOCKER COMPOSE!<ul>
+<li>See this commment <a href="https://github.com/docker/cli/issues/4347#issuecomment-1590214094">https://github.com/docker/cli/issues/4347#issuecomment-1590214094</a> from a Docker maintainer</li>
+</ul>
+</li>
+<li>Unfortunately these caveats are not very well documented 😢</li>
+<li><code>--env</code>/<code>-e</code> CLI argument</li>
+<li>Quotes are needed for variable values with spaces, will <strong>override</strong> the same variable set via <code>ENV</code> instruction in the dockerfile</li>
+</ul>
+<p>Some important references:
+- <a href="https://docs.docker.com/engine/reference/commandline/run/#env">https://docs.docker.com/engine/reference/commandline/run/#env</a>
+- <a href="https://docs.docker.com/engine/reference/builder/#env">https://docs.docker.com/engine/reference/builder/#env</a>
+- <a href="https://stackoverflow.com/a/63640896">https://stackoverflow.com/a/63640896</a> (this answer mostly explains <code>ARG</code>/<code>ENV</code> but also covers some info on both <code>docker run</code> and <code>docker compose</code>)
+  - a summary of <a href="https://vsupalov.com/docker-arg-env-variable-guide/">https://vsupalov.com/docker-arg-env-variable-guide/</a></p>
+<h2 id="using-secrets-in-docker-compose">Using <code>secrets</code> in Docker Compose</h2>
+<p>The key point to note when using secrets is that <em>each</em> secret that a container (i.e., service in the Compose file) is granted access to gets mounted at a special path inside the container: <code>/run/secrets/&lt;secret_name&gt;</code></p>
+<p>That is, the value of each secret ends up as the <em>contents</em> of a separate file under <code>/run/secrets/</code> inside the container.</p>
+<p>You can define a secret one of two ways:</p>
+<ul>
+<li>
+<p>By setting it as the value of environment variable that is accessible to the <strong>Compose file itself</strong></p>
+<ul>
+<li>So, any way that you can provide/expose environment variables to the Compose file, you should be able to include the environment variable for the secret (see <a href="#Setting-environment-variables">Setting environment variables</a> section)</li>
+<li>
+<p>including via a <code>.env</code> file</p>
+<p>Example:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># .env file</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nv">MY_SECRET</span><span class="o">=</span>bageley
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>...
+</span></code></pre></div>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># docker-compose.yml</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nn">...</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nt">secrets</span><span class="p">:</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="nt">my_secret</span><span class="p">:</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;MY_SECRET&quot;</span>
+</span></code></pre></div>
+<p>Inside a container that has access to <code>my_secret</code>, <code>cat /run/secrets/my_secret</code> will return <code>bageley</code>.</p>
+<p>If <code>MY_SECRET</code> is not found in the environment (or unset ? - need to check), docker compose will give an error.</p>
+<p><strong>NOTE:</strong> In order to ensure the <code>MY_SECRET</code> value does not end up exposed in e.g., the docker compose config, if a container needs to use <em>other</em> variables defined in the <code>.env</code> file, each needed variable should be explicitly specified under the <code>environment</code> attribute in docker-compose.yml, rather than using the <code>env_file</code> attribute (because it will auto-include <em>all</em> the variables in <code>.env</code> as environment variables, including the secret).</p>
+</li>
+</ul>
+</li>
+<li>
+<p>By making the value of the secret the contents of a file, which you then provide to the <code>secrets</code> attribute</p>
+</li>
+<li>Example: see <a href="https://docs.docker.com/compose/use-secrets/#advanced">https://docs.docker.com/compose/use-secrets/#advanced</a></li>
+</ul>
+<p>Note that for both these methods:</p>
+<ul>
+<li>The secret is <strong>not</strong> automatically set as an environment variable inside the container</li>
+</ul>
+<p>References:</p>
+<ul>
+<li><a href="https://docs.docker.com/compose/use-secrets/">https://docs.docker.com/compose/use-secrets/</a></li>
+<li><a href="https://docs.docker.com/compose/compose-file/09-secrets/">https://docs.docker.com/compose/compose-file/09-secrets/</a></li>
+</ul>
+<h2 id="troubleshooting-dockerdocker-compose-recipes">Troubleshooting Docker/Docker Compose recipes</h2>
+<p>Mostly encountered when trying to deploy our tools on the internal BIC node (where we don't have admin permissions), which involves a network FS from a different machine.</p>
+<h3 id="running-docker-container-as-non-root-user">Running Docker container as non-root user</h3>
+<p>Sometimes, probably depending on the permissions of a user on the machine they are using to deploy Neurobagel, Docker can be run as the <code>nobody</code> user (even though inside the container the user is <code>root</code>, by default). This means when the container tries to write to a mounted directory on the host, it might not have permissions to do so (unless the directory has <code>rwx</code> permissions for ALL users, which usually isn't the desired setup).</p>
+<blockquote>
+<p>You can verify what user is being used to write to the host FS by running an interactive bash shell inside the container that uses the volume mount, and trying to write to a mounted test directory with fully open access permissions, e.g.:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>-v<span class="w"> </span>/data/origami/mount_test:/opt/graphdb/home<span class="w"> </span>--entrypoint<span class="w"> </span>/bin/bash<span class="w"> </span>ontotext/graphdb:10.3.1<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;touch /opt/graphdb/home/hellofromcontainer.txt&quot;</span>
+</span></code></pre></div>
+<p>Then, you can <code>cd</code> into the mounted directory on the host and view the file owner/group.</p>
+</blockquote>
+<p>One workaround is to explicitly run the container as a non-root user, using the <a href="https://docs.docker.com/engine/reference/run/#user"><code>--user</code> flag in <code>docker run</code></a>, or the <a href="https://docs.docker.com/compose/compose-file/05-services/#user"><code>user</code> instruction in docker-compose.yml</a>:</p>
+<p>e.g.,</p>
+<ol>
+<li>
+<p>Add following to the relevant service in <code>docker-compose.yml</code>:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>user:<span class="w"> </span><span class="si">${</span><span class="nv">CURRENT_UID</span><span class="si">}</span>
+</span></code></pre></div>
+</li>
+<li>
+<p>Start the Compose stack with</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nv">CURRENT_UID</span><span class="o">=</span><span class="k">$(</span>id<span class="w"> </span>-u<span class="k">)</span>:<span class="k">$(</span>id<span class="w"> </span>-g<span class="k">)</span><span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
+</span></code></pre></div>
+</li>
+</ol>
+<p>Useful commands for troubleshooting:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>id<span class="w"> </span><span class="nv">$USER</span><span class="w">  </span><span class="c1"># shows uid and all gid and names for current user</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>id<span class="w"> </span>-gn<span class="w">  </span><span class="c1"># gets name of primary group</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># get id of user and primary group</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>id<span class="w"> </span>-g<span class="w">  </span><span class="c1"># not all shells set $GID</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>id<span class="w"> </span>-u<span class="w">  </span><span class="c1"># same as $UID</span>
+</span></code></pre></div>
+<p>References:</p>
+<ul>
+<li><a href="https://medium.com/redbubble/running-a-docker-container-as-a-non-root-user-7d2e00f8ee15">https://medium.com/redbubble/running-a-docker-container-as-a-non-root-user-7d2e00f8ee15</a></li>
+<li><a href="https://docs.docker.com/compose/compose-file/05-services/#user">https://docs.docker.com/compose/compose-file/05-services/#user</a></li>
+<li><a href="https://docs.docker.com/engine/reference/run/#user">https://docs.docker.com/engine/reference/run/#user</a></li>
+<li><a href="https://dev.to/izackv/running-a-docker-container-with-a-custom-non-root-user-syncing-host-and-container-permissions-26mb">https://dev.to/izackv/running-a-docker-container-with-a-custom-non-root-user-syncing-host-and-container-permissions-26mb</a></li>
+<li><a href="https://askubuntu.com/questions/1201352/what-environment-variable-will-report-the-users-primary-group">https://askubuntu.com/questions/1201352/what-environment-variable-will-report-the-users-primary-group</a></li>
+</ul>
+<h3 id="specifying-specific-subnet-for-docker-networks">Specifying specific subnet for Docker networks</h3>
+<p>Unless configured to do otherwise, the Docker engine by default will choose a subnet for each Compose network at creation time - this is problematic when an existing subnet needs to be reserved for use on a machine, e.g. for a specific network FS. When this is the case, the network FS becomes unreachable if a conflicting subnet is used by a newly launched Docker network. (Note: By default, each Docker Compose network gets assigned its own subnet.)</p>
+<p>There are a few ways to change which subnet is used by a Docker network or Docker container:</p>
+<ul>
+<li>edit <code>/etc/docker/daemon.json</code> (see <a href="https://github.com/docker/compose/issues/4336#issuecomment-457326123">https://github.com/docker/compose/issues/4336#issuecomment-457326123</a>)</li>
+<li>you can set <code>"default-address-pools"</code>, which will put containers using both docker and docker compose into your desired subnet</li>
+<li>setting <code>"bip"</code> and <code>"fixed-cidr"</code> only seems to affect Docker containers launched not as part of a Compose recipe, which use the default bridge network</li>
+<li>specify a network subnet in each docker-compose.yml, following <a href="https://docs.docker.com/compose/compose-file/06-networks/#ipam">https://docs.docker.com/compose/compose-file/06-networks/#ipam</a></li>
+<li>option 1: specify to use the <em>same</em> network in each docker-compose.yml - see example <a href="https://stackoverflow.com/questions/38088279/communication-between-multiple-docker-compose-projects">here</a> (this is != specifying just the same <code>subnet</code> in each docker-compose.yml, which can cause the following issue)
+    <div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="o">[</span>+<span class="o">]</span><span class="w"> </span>Running<span class="w"> </span><span class="m">1</span>/0
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>✘<span class="w"> </span>Network<span class="w"> </span>bic_federation_fednet<span class="w">  </span>Error<span class="w">                                                                                  </span><span class="m">0</span>.0s
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>failed<span class="w"> </span>to<span class="w"> </span>create<span class="w"> </span>network<span class="w"> </span>bic_federation_fednet:<span class="w"> </span>Error<span class="w"> </span>response<span class="w"> </span>from<span class="w"> </span>daemon:<span class="w"> </span>Pool<span class="w"> </span>overlaps<span class="w"> </span>with<span class="w"> </span>other<span class="w"> </span>one<span class="w"> </span>on<span class="w"> </span>this<span class="w"> </span>address<span class="w"> </span>space
+</span></code></pre></div></li>
+<li>option 2: use a custom network per docker-compose.yml, but specify non-conflicting <code>subnet</code>s (either /16 or /24)<ul>
+<li>specifying the same <code>subnet</code>, but non-conflicting <code>ip_range</code> doesn't seem to be sufficient:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Error<span class="w"> </span>response<span class="w"> </span>from<span class="w"> </span>daemon:<span class="w"> </span>cannot<span class="w"> </span>create<span class="w"> </span>network<span class="w"> </span>c800e759f35a326a36f8beac2aa60fc5032a8cc92ede2210a92ba8f4845e9c5f<span class="w"> </span><span class="o">(</span>br-c800e759f35a<span class="o">)</span>:<span class="w"> </span>conflicts<span class="w"> </span>with<span class="w"> </span>network<span class="w"> </span>6873e8489de40af4d4a9f7635145fd3ea9753fb4c03f6eafbc6e5fa8fcdde791<span class="w"> </span><span class="o">(</span>br-6873e8489de4<span class="o">)</span>:<span class="w"> </span>networks<span class="w"> </span>have<span class="w"> </span>overlapping<span class="w"> </span>IPv4
+</span></code></pre></div></li>
+<li>specifying just <code>ip_range</code> also seems to not work?
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>failed<span class="w"> </span>to<span class="w"> </span>create<span class="w"> </span>network<span class="w"> </span>bic_federation_fednet:<span class="w"> </span>Error<span class="w"> </span>response<span class="w"> </span>from<span class="w"> </span>daemon:<span class="w"> </span>Invalid<span class="w"> </span>subnet<span class="w">  </span>:<span class="w"> </span>invalid<span class="w"> </span>CIDR<span class="w"> </span>address:
+</span></code></pre></div></li>
+</ul>
+</li>
+</ul>
+<p>Resources:
+- <a href="https://docs.docker.com/config/daemon/ipv6/#dynamic-ipv6-subnet-allocation">https://docs.docker.com/config/daemon/ipv6/#dynamic-ipv6-subnet-allocation</a>
+- <a href="https://docs.docker.com/compose/compose-file/06-networks/#ipam">https://docs.docker.com/compose/compose-file/06-networks/#ipam</a>
+- <a href="https://forums.docker.com/t/docker-default-address-pool-customization-question/112969">https://forums.docker.com/t/docker-default-address-pool-customization-question/112969</a>
+- <a href="https://docs.docker.com/network/network-tutorial-standalone/#use-user-defined-bridge-networks">https://docs.docker.com/network/network-tutorial-standalone/#use-user-defined-bridge-networks</a>
+- <a href="https://stackoverflow.com/questions/38088279/communication-between-multiple-docker-compose-projects">https://stackoverflow.com/questions/38088279/communication-between-multiple-docker-compose-projects</a></p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../../testing/Cypress%20Tasks/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Cypress tasks">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Cypress tasks
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../Dockerized%20NGINX%20deployment/" class="md-footer__link md-footer__link--next" aria-label="Next: Dockerized NGINX deployment">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Dockerized NGINX deployment
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.footer"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

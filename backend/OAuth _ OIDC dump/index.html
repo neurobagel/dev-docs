@@ -1,0 +1,1810 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Internal docs on topics relevant for developing and maintaining Neurobagel">
+      
+      
+      
+      
+        <link rel="prev" href="../Keycloak/">
+      
+      
+        <link rel="next" href="../BIC%20node%20federation/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/logo/neurobagel_favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>OAuth / OIDC dump - Neurobagel Developer Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="cyan" data-md-color-accent="deep-purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#oauth-oidc-dump" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Neurobagel Developer Documentation" class="md-header__button md-logo" aria-label="Neurobagel Developer Documentation" data-md-component="logo">
+      
+  <img src="../../assets/images/logo/neurobagel_logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Neurobagel Developer Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              OAuth / OIDC dump
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/neurobagel/dev-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Neurobagel Developer Documentation" class="md-nav__button md-logo" aria-label="Neurobagel Developer Documentation" data-md-component="logo">
+      
+  <img src="../../assets/images/logo/neurobagel_logo.png" alt="logo">
+
+    </a>
+    Neurobagel Developer Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/neurobagel/dev-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Process & Governance
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Process & Governance
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../process/How%20we%20work/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How we work
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../process/Neurobagel%20Release%20process/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Release process
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../process/Neurobagel%20Code%20of%20Conduct/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code of Conduct
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../process/Neurobagel%20PATs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Personal Access Tokens (PATs)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development & Tooling
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Development & Tooling
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dev/Tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dev/Git%20Tricks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Git tricks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dev/Version%20compatibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Version compatibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Frontend & UI
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Frontend & UI
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/Query%20Tool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Query Tool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/Query%20Tool%20Result%20File%20Generation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Query Tool: Result file generation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/Nuxt%20Tricks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nuxt tricks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/Vite%20tricks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vite tricks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/CSS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CSS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/React/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    React
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/Zustand/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Zustand
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing & CI
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Testing & CI
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/Cypress%20Vue%20Testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cypress Vue testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/Cypress%20Snippets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cypress snippets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/Cypress%20Tasks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cypress tasks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment & Infrastructure
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Deployment & Infrastructure
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deploy/Docker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deploy/Dockerized%20NGINX%20deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dockerized NGINX deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deploy/Apache%20Jena%20Fuseki%20Deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Jena / Fuseki
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deploy/Legacy%20Stardog%20graph%20backend%20deployment%20instructions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Legacy Stardog setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deploy/Fabrique%20%28vGPU%20prep%20and%20other%20issues%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fabrique (vGPU notes)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deploy/Setting%20up%20SSH%20keys/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Add public key for users
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deploy/Node-upgrade-after-release/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nodes to redeploy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backend & Security
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Backend & Security
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Keycloak/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Keycloak (Auth)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OAuth / OIDC notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BIC%20node%20federation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BIC node federation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data model & Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data model & Troubleshooting
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data/Limitations%20of%20Neurobagel%20data%20model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Limitations of Neurobagel data model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data/Troubleshooting%20erroneous%20HC_Diagnosis%20query%20results/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting HC_Diagnosis query results
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="oauth-oidc-dump">OAuth / OIDC dump</h1>
+<h1 id="seb-brain-dump">Seb brain dump</h1>
+<ul>
+<li>OAuth is a protocol that allows a user to give an app (A) specific (scoped) access to data in an app (B) without revealing credentials<ul>
+<li>classic example: budget app (A) wants to see your transaction in your bank (B). Historically (and still today) this (insanely) involves(d) sharing your actual username and password with app (A)</li>
+<li>OAuth removes the need to share credentials</li>
+</ul>
+</li>
+<li>OAuth bottom line is:<ul>
+<li>give access to a resource</li>
+</ul>
+</li>
+<li>OIDC is a layer on top of OAuth<ul>
+<li>because OAuth works so well and identity for things like SSO were hard before</li>
+<li>OIDC is mainly used so app A can let you log in with e.g. github and then show your beautiful profile picture and some other basic info about you as a user</li>
+<li>so the "resource" OIDC accesses is your identity</li>
+</ul>
+</li>
+<li>There are different OIDC flows (implicit, some other thing)<ul>
+<li>A lot of the security relies on the fact that an app that wants to use OIDC with a specific identity provider (e.g. github) first has to register with the identity provider</li>
+<li>that means, my app goes to github, says "hello, it's me, the app, here is my public key. when I call back later to ask about Sebs account, this will prove it's really me asking"</li>
+<li>When Seb logs into the identity provider (IP) there is a specific prompt "Do you want to give app A access to the following scopes?" (e.g. email, name, avatar ...). If Seb says yes, there is a redirect URL that includes a special code.</li>
+<li>The App can now parse the code from the redirect URL and then go to the IP and say: "Hey, Seb just said I could look at his avatar and email. Here is a code to prove that. Can I please get an identity token in exchange". And then the IP gives the token back which includes a bunch of other things, but mainly says "Yes, I, the Identity Provider, confirm that this is really Seb you just talked to"</li>
+<li>Finally, the App can exchange the identity token for more detailed user info about Seb at a identity resource API from the identity provider</li>
+</ul>
+</li>
+</ul>
+<p>Final thing:
+- because identity tokens are issued by the IP on behalf of a user, for the consumption of a specific app, things (may) get tricky when we introduce our federated network. 
+- Because the app in our case would be e.g. the query tool, but each node in the network would have to validate the identity token it receives with the federated query. 
+- So probably we will have to look into something called Token Exchange (<a href="https://oauth.net/2/token-exchange/">https://oauth.net/2/token-exchange/</a>).
+- I don't get that whole thing fully yet - but my understanding is that Neurobagel would get the initial OIDC token, and would then exchange the token for a new token for each node in the network. 
+- So from the perspective of a Neurobagel node that receives a federated query, the identity token would be asserted by Neurobagel, and not by the identity provider. 
+- If that is the case (e.g. Neurobagel would have to be an intermediary identity provider) that would not be great. Ideally we can find a way how a user goes through one OIDC flow and then each node can validate the token</p>
+<p>Take a look at some of the resources I found useful. Most useful probably is the GitHub OIDC flow tutorial. I think the tutorial is not in python, but should be reasonably easy to translate.</p>
+<h3 id="2024-07-02">2024-07-02</h3>
+<p>Implementation thoughts:
+- Step 1: OIDC workflow should run in the frontend
+    - Should make GH user icon appear in top right corner of query tool (showing context from the OAuth)
+- How does query tool talk to federation API differently after logging into GH?
+  - Auth scoped to specific application
+  - Query tools becomes a registered OAuth app on GH
+  - What do we do w/ identity token
+  - Step 2: As part of request to f-API, JWT is set to f-API, which then double checks w/ GH 
+      - f-API then sends that over to n-API, which does the GH check again
+  - issue: every jump needs a token
+  - needs to check at every step = zero trust
+      - otherwise, everyone needs to essentially trust the f-API instead of a third party app (e.g., GitHub)
+- this is called token exchange
+- f-API needs to validate who is sending request
+- feature flag for dev.</p>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=ZV5yTm4pT8g">https://www.youtube.com/watch?v=ZV5yTm4pT8g</a> (generally good site)</li>
+<li><a href="https://docs.github.com/en/apps/creating-github-apps/writing-code-for-a-github-app/building-a-login-with-github-button-with-a-github-app">https://docs.github.com/en/apps/creating-github-apps/writing-code-for-a-github-app/building-a-login-with-github-button-with-a-github-app</a></li>
+<li><a href="https://www.youtube.com/watch?v=CPbvxxslDTU">https://www.youtube.com/watch?v=CPbvxxslDTU</a></li>
+<li><a href="https://www.youtube.com/watch?v=rTzlF-U9Y6Y">https://www.youtube.com/watch?v=rTzlF-U9Y6Y</a></li>
+<li><a href="https://auth0.com/blog/id-token-access-token-what-is-the-difference/">https://auth0.com/blog/id-token-access-token-what-is-the-difference/</a></li>
+</ul>
+<h1 id="alyssas-notes">Alyssa's notes</h1>
+<h2 id="more-on-token-exchange">More on token exchange</h2>
+<ul>
+<li>The app that receives the initial token (?) has the option to impersonate (keep app identity hidden from downstream app and act as end user) or delegate (app is acting on behalf of the client, which has obtained auth. from end user) identity of user</li>
+<li>
+<p>Tokens include an 'audience value' (who is this intended for) and 'scopes' (what things can you see)</p>
+</li>
+<li>
+<p>Generally, when token exchange is involved there is a central <em>authorization server</em> that becomes the single point of trust. This is typically not GH, which primarily acts as an <em>identity provider</em> (encompasses an <em>authentication server</em>) and may not support token exchange natively</p>
+<ul>
+<li>an authorization server handles the authorization aspects of token issuance, and can (but does not always) also handle token exchange</li>
+<li>GH may not act as a full-fledged authorization server in the OAuth 2.0 sense<ul>
+<li>Supported OAuth grant types in GH are mentioned here: <a href="https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps">https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps</a></li>
+<li>GH doesn't seem to support RFC 8693, which defines the OAuth 2.0 Token Exchange protocol</li>
+</ul>
+</li>
+<li>GH’s access tokens typically grant access to resources within GH itself (e.g., repositories, issues) rather than acting as tokens that authorize access to third-party services or APIs unrelated to GH<ul>
+<li>GH's access tokens are scoped to its own APIs and are not intended to manage access to arbitrary external resources / APIs</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>For token exhange, can use a service like Keycloak or Auth0</p>
+<ul>
+<li>will allow us to use GH for initial user authentication and then manage service-specific tokens through a central authorization server</li>
+</ul>
+</li>
+<li>
+<p>w/o token exchange:</p>
+<ul>
+<li>each downstream service must trust token issued by authentication server (GH), and must validate the received token against GH APIs</li>
+<li>usually means the token's scope needs to be broader</li>
+</ul>
+</li>
+<li>w/ token exchange:<ul>
+<li>minimizes permissions granted to any one scope (each service requests a new token w/ tailored scopes + permissions)</li>
+<li>need to trust a central authorization server that supports token exchange, like Keycloak, to handle the token issuance</li>
+</ul>
+</li>
+</ul>
+<p>Resources:
+- <a href="https://sagarag.medium.com/oauth2-token-exchange-in-practice-5a12a6d2e0d">https://sagarag.medium.com/oauth2-token-exchange-in-practice-5a12a6d2e0d</a>
+- <a href="https://dev.to/fuegoio/demystifying-authentication-with-fastapi-and-a-frontend-26f5">https://dev.to/fuegoio/demystifying-authentication-with-fastapi-and-a-frontend-26f5</a>
+- <a href="https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps">https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps</a>
+- <a href="https://medium.com/keycloak/github-as-identity-provider-in-keyclaok-dca95a9d80ca">https://medium.com/keycloak/github-as-identity-provider-in-keyclaok-dca95a9d80ca</a>
+- <a href="https://yasasramanayaka.medium.com/oauth-2-0-token-exchange-flow-78fadf23e1fc">https://yasasramanayaka.medium.com/oauth-2-0-token-exchange-flow-78fadf23e1fc</a></p>
+<h3 id="implicit-vs-authorization-code-schemesflows">Implicit vs. authorization code schemes/flows</h3>
+<ul>
+<li><strong>implicit</strong> scheme: frontend receives access token from IdP and uses it to access OAuth resources, and then gives token to backend API to secure connection b/w frontend &amp; backend</li>
+<li><strong>authorization code</strong> scheme: backend is the one that first receives the access token, &amp; is in charge of accessing resources<ul>
+<li><strong><a href="https://tools.ietf.org/html/draft-ietf-oauth-security-topics-12">more secure (and generally recommended)</a></strong> b/c frontend doesn't have to give token to backend (although in federated authentication this kind of may be needed anyways)</li>
+</ul>
+</li>
+<li>another flow is the <strong>password</strong> flow, which is the one used in FastAPI tutorials</li>
+</ul>
+<p>Resources:
+- <a href="https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps#web-application-flow">https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps#web-application-flow</a>
+- <a href="https://github.com/tiangolo/fastapi/discussions/9141">https://github.com/tiangolo/fastapi/discussions/9141</a></p>
+<h3 id="using-external-oauth-providers">Using external OAuth providers</h3>
+<ul>
+<li>GH<ul>
+<li><strong>not an OIDC provider</strong> -&gt; doesn't provide ID token</li>
+<li>does not support implicit flow: <a href="https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps">https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps</a></li>
+</ul>
+</li>
+<li>ORCiD<ul>
+<li>OIDC provider with nice <a href="https://github.com/ORCID/orcid-auth-widget?tab=readme-ov-file">documentation</a>, but we need to go through an app registration process<ul>
+<li>for ORCiD members (member API): <a href="https://info.orcid.org/documentation/integration-guide/registering-a-member-api-client/">https://info.orcid.org/documentation/integration-guide/registering-a-member-api-client/</a><ul>
+<li>think this is more for use for member <strong>organizations</strong> (e.g., McGill?)</li>
+</ul>
+</li>
+<li>for non-members (public API) <a href="https://info.orcid.org/documentation/integration-guide/registering-a-public-api-client/">https://info.orcid.org/documentation/integration-guide/registering-a-public-api-client/</a></li>
+</ul>
+</li>
+<li>both the member API &amp; public API also have a corresponding sandbox API version, for which you can apply for credentials for your application. The only extra step is that this needs to be done through a <a href="https://sandbox.orcid.org/signin">sandbox ORCiD account</a>, using a mailinator.com email</li>
+</ul>
+</li>
+<li>
+<p>Google</p>
+<ul>
+<li>OIDC provider</li>
+<li>General info: <a href="https://developers.google.com/identity/openid-connect/openid-connect">https://developers.google.com/identity/openid-connect/openid-connect</a></li>
+<li>For example implementation using authorization code flow: <a href="https://github.com/kolitiri/fastapi-oidc-react">https://github.com/kolitiri/fastapi-oidc-react</a></li>
+<li><a href="https://stackoverflow.com/questions/7130648/get-user-info-via-google-api/67913727#67913727">https://stackoverflow.com/questions/7130648/get-user-info-via-google-api/67913727#67913727</a></li>
+<li>Setting up JS origins / redirect origins for Google API client:<ul>
+<li><a href="https://developers.google.com/identity/protocols/oauth2/javascript-implicit-flow#origin-validation">https://developers.google.com/identity/protocols/oauth2/javascript-implicit-flow#origin-validation</a></li>
+<li><a href="https://developers.google.com/identity/protocols/oauth2/web-server#uri-validation">https://developers.google.com/identity/protocols/oauth2/web-server#uri-validation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><code>client_id</code> and <code>client_secret</code> are important, they are provided by the IdP for the app (frontend?) and can be used to verify a received access token against the IdP (e.g., the access token that the frontend passes to the backend API)</p>
+</li>
+</ul>
+<p>Related FastAPI resources:
+- <a href="https://github.com/tiangolo/fastapi/discussions/9137">https://github.com/tiangolo/fastapi/discussions/9137</a>
+- <a href="https://github.com/tiangolo/fastapi/blob/master/fastapi/openapi/models.py#L387-L391">https://github.com/tiangolo/fastapi/blob/master/fastapi/openapi/models.py#L387-L391</a></p>
+<h2 id="oauth-vs-oidc-vs-jwt-authentication">OAuth vs. OIDC vs. JWT (authentication)</h2>
+<ul>
+<li>JWT is a token format, can be used for authentication ("JWT authentication")</li>
+<li>a way to encode and verify claims for a token</li>
+<li>not a (OAuth?) protocol / standard, doesn't specify how client <em>obtains</em> the token</li>
+<li>JWT tokens are signed with a secret key</li>
+<li>OIDC</li>
+<li>uses access tokens and ID tokens (ID token is a JWT, access token may (?) be a JWT but doesn't have to be)</li>
+<li>OAuth</li>
+<li>typically deals with only access tokens</li>
+</ul>
+<p>Resources:
+- <a href="https://stackoverflow.com/questions/39909419/what-are-the-main-differences-between-jwt-and-oauth-authentication">https://stackoverflow.com/questions/39909419/what-are-the-main-differences-between-jwt-and-oauth-authentication</a></p>
+<h2 id="more-on-token-types">More on token types</h2>
+<ul>
+<li>"Access tokens, ID tokens, and self-signed JWTs are all bearer tokens"</li>
+</ul>
+<p>Resources:
+<a href="https://cloud.google.com/docs/authentication/token-types">https://cloud.google.com/docs/authentication/token-types</a></p>
+<h2 id="resources-for-using-google-as-external-idp">Resources for using Google as external IdP</h2>
+<ul>
+<li><a href="https://medium.com/@vivekpemawat/enabling-googleauth-for-fast-api-1c39415075ea">https://medium.com/@vivekpemawat/enabling-googleauth-for-fast-api-1c39415075ea</a></li>
+<li><a href="https://prokofyev.ch/implementing-google-login-with-javascript-and-fastapi/">https://prokofyev.ch/implementing-google-login-with-javascript-and-fastapi/</a></li>
+<li><a href="https://developers.google.com/identity/gsi/web/guides/verify-google-id-token#python">https://developers.google.com/identity/gsi/web/guides/verify-google-id-token#python</a></li>
+</ul>
+<p>Questions:
+- What's the relationship of bearer authentication (see also <a href="https://stackoverflow.com/a/77426797">https://stackoverflow.com/a/77426797</a>), implicit OAuth2 flow, and authorization code OAuth2 flow?
+    - Either flow can use "bearer" authentication, I guess?
+    - w/o token, it's a "basic" auth scheme (?)</p>
+<h3 id="questions-re-federated-auth">Questions re: federated auth</h3>
+<ul>
+<li>If the n-API and f-API in a local deployment use the same setting for <code>NB_ENABLE_AUTH</code>, what happens when the query gets forwarded to other (e.g., public) nodes that <strong>do</strong> require authentication?</li>
+<li>Maybe 'disabling' means making it optional, so that user can still log in to have access to all nodes, if desired?</li>
+</ul>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../Keycloak/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Keycloak (Auth)">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Keycloak (Auth)
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../BIC%20node%20federation/" class="md-footer__link md-footer__link--next" aria-label="Next: BIC node federation">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                BIC node federation
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.footer"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
