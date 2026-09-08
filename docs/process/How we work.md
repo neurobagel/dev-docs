@@ -302,3 +302,23 @@ If `develop` has accumulated the planned features and is ready for release. The 
 
 ## Daisy chaining pull requests
 When addressing multiple issues of the same repository in succession, it's better to not branch off of the feature branch with the latest changes as it may lead to conflicts that if not handled properly may overwrite some of the changes made. For a safer approach, branch off of main for each issue.
+
+## Tech debt days
+
+**Frequency:** One day every two weeks
+
+**Goal**: Address tech debt and other non-urgent issues that have been deprioritized in favor of milestone issues. 
+This is a time to focus on codebase quality improvements, low-effort user-facing fixes or enhancements, or maintenance issues that have not been addressed for an extended period of time.
+
+**Process**:
+
+1. Select an issue to work on:
+- Look for issues labeled `quick fix`, or `Bug` / `Enhancement` issues that can be resolved within a day
+- Prioritize issues that:
+  - Would improve user or developer experience, but are not attached to any current or upcoming milestone
+  - Have been open for >6 months
+  - Have been opened by an external user
+
+2. Ensure the issue description is complete and provides enough context for the work to be done.
+
+3. Move issue(s) directly onto the board into the "Implement - Active" column
