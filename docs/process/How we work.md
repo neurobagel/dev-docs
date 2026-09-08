@@ -313,11 +313,11 @@ This is a time to focus on codebase quality improvements, low-effort user-facing
 **Process**:
 
 1. Select an issue to work on:
-  - Look for issues labeled `quick fix`, or `Bug` / `Enhancement` issues that can be resolved within a day
-  - Prioritize issues that:
-    - Would improve user or developer experience, but are not attached to any current or upcoming milestone
-    - Have been open for >6 months
-    - Have been opened by an external user
+    - Look for issues labeled `quick fix`, or `Bug` / `Enhancement` issues that can be resolved within a day
+    - Prioritize issues that:
+        - Would improve user or developer experience, but are not attached to any current or upcoming milestone
+        - Have been open for >6 months
+        - Have been opened by an external user
 
 2. Ensure the issue description is complete and provides enough context for the work to be done.
 
